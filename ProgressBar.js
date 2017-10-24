@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-    StyleSheet,
-    Text,
-    View,
-    Animated,
-    Easing,
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  Easing,
 } from 'react-native';
 
 var styles = StyleSheet.create({
@@ -19,7 +19,15 @@ var styles = StyleSheet.create({
   }
 });
 
-var ProgressBar = React.createClass({
+export default class ProgressBar extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      progress: new Animated.Value(this.props.initialProgress || 0)
+
+    }
+  }
 
   getDefaultProps() {
     return {
@@ -27,19 +35,13 @@ var ProgressBar = React.createClass({
       easing: Easing.inOut(Easing.ease),
       easingDuration: 500
     };
-  },
-
-  getInitialState() {
-    return {
-      progress: new Animated.Value(this.props.initialProgress || 0)
-    };
-  },
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.progress >= 0 && this.props.progress != prevProps.progress) {
       this.update();
     }
-  },
+  }
 
   render() {
 
@@ -50,10 +52,10 @@ var ProgressBar = React.createClass({
 
     return (
       <View style={[styles.background, this.props.backgroundStyle, this.props.style]}>
-        <Animated.View style={[styles.fill, this.props.fillStyle, { width: fillWidth }]}/>
+        <Animated.View style={[styles.fill, this.props.fillStyle, { width: fillWidth }]} />
       </View>
     );
-  },
+  }
 
   update() {
     Animated.timing(this.state.progress, {
@@ -62,6 +64,4 @@ var ProgressBar = React.createClass({
       toValue: this.props.progress
     }).start();
   }
-});
-
-module.exports = ProgressBar;
+}
